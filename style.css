@@ -1,0 +1,58 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body {
+    background-color: #f9f9f9;
+    /* background-image: url("images/what-the-hex.png"); */
+    background-repeat: repeat;
+}
+
+.container {    
+    border-top: solid lightgray 1px;
+    padding-top: 1%;
+    display:flex;    
+}
+
+header {    
+    width: 100vw;
+    height: 20vh;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+#searchBar {
+    height: 20px;
+    background-color: white;
+}
+
+.navbar-right{
+    border-left: solid 1px lightgrey;
+    justify-self: right;
+    height: 80vh;
+    width: 25vw;
+    display:flex;
+    flex-direction: column;
+    align-items:center; 
+    padding-top: 1%;
+}
+
+.gallerySpace {
+    column-count: 4;
+    column-gap:1em;
+    width: 75vw;
+}
+
+.imageItem {
+    background-color: #eee;
+    display:inline-block;
+    margin: 0 0 1em;
+    width: 100%;
+}
+
+.relatedLink {
+    text-decoration: none;
+    color: black;
+}
