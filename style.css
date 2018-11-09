@@ -13,6 +13,7 @@ body {
     border-top: solid lightgray 1px;
     padding-top: 1%;
     display:flex;    
+    padding-left: 1%;
 }
 
 header {    
@@ -45,6 +46,11 @@ header {
     width: 75vw;
 }
 
+::-webkit-input-placeholder {
+    text-align: center;
+ }
+ 
+
 .imageItem {
     background-color: #eee;
     display:inline-block;
@@ -55,4 +61,11 @@ header {
 .relatedLink {
     text-decoration: none;
     color: black;
+    margin-top:2%;
+    color:grey;
+}
+
+#relatedLinksHeading {
+    color: grey;
+    font-family: Arial, Helvetica, sans-serif;
 }

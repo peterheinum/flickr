@@ -35,7 +35,7 @@ function generatePhotoArray(tempPhotoArray) {
 
 function displayImagesFromPhotoArray() {
     var body = document.querySelector('.gallerySpace ');
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 50; i++) {
         var image = new Image();
         image.onload = function () {
             image.className = "imageItem";
@@ -65,7 +65,7 @@ function handleSearch(event) {
             .then((res) => {
                 return res.json();
             }).then((JsonData) => {
-                var body = document.querySelector('.navbar-right');
+                var body = document.querySelector('.navbar-right>ul');
 
                 for (let i = 0; i < 10; i++) {
                     let tag = JsonData.tags.tag[i]._content;
