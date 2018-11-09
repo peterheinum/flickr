@@ -1,5 +1,5 @@
 const key = "c6172fde54b6b96d7afbd08ad5118a7a";
-const photoArray = [];
+let photoArray = [];
 
 const promise = fetch(`https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=${key}&gallery_id=66911286-72157647277042064&format=json&nojsoncallback=1`)
     .then((res) => {
@@ -27,6 +27,7 @@ class Photo {
     }
 }
 function generatePhotoArray(tempPhotoArray) {
+    
     tempPhotoArray.forEach(x => {
         let tempPhoto = new Photo(x.id, x.farm, x.server, x.secret);
         photoArray.push(tempPhoto);
@@ -68,6 +69,7 @@ function handleSearch(event) {
                 var body = document.querySelector('.navbar-right>ul');
 
                 for (let i = 0; i < 10; i++) {
+                    
                     let tag = JsonData.tags.tag[i]._content;
                     let temp = document.createElement("p");
                     temp.className = "relatedLink";

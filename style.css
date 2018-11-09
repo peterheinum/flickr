@@ -13,8 +13,8 @@ body {
     border-top: solid lightgray 1px;
     padding-top: 1%;
     display:flex;    
-    padding-left: 1%;
 }
+
 
 header {    
     width: 100vw;
@@ -30,7 +30,7 @@ header {
 }
 
 .navbar-right{
-    border-left: solid 1px lightgrey;
+    
     justify-self: right;
     height: 80vh;
     width: 25vw;
@@ -44,6 +44,9 @@ header {
     column-count: 4;
     column-gap:1em;
     width: 75vw;
+    border-right: solid 1px lightgrey;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 ::-webkit-input-placeholder {
