@@ -27,15 +27,28 @@ class Photo {
     }
 }
 function generatePhotoArray(tempPhotoArray) {
-    
-    tempPhotoArray.forEach(x => {
-        let tempPhoto = new Photo(x.id, x.farm, x.server, x.secret);
-        photoArray.push(tempPhoto);
-    });
+    if (photoArray) {
+        photoArray = [];
+        tempPhotoArray.forEach(x => {
+            let tempPhoto = new Photo(x.id, x.farm, x.server, x.secret);
+            photoArray.push(tempPhoto);
+        });
+    } else {
+        tempPhotoArray.forEach(x => {
+            let tempPhoto = new Photo(x.id, x.farm, x.server, x.secret);
+            photoArray.push(tempPhoto);
+        });
+    }
 }
 
 function displayImagesFromPhotoArray() {
-    var body = document.querySelector('.gallerySpace ');
+    var body = document.querySelector('.gallerySpace');
+
+    while(body.firstChild){
+        body.removeChild(body.firstChild);
+    }   
+    
+
     for (let i = 0; i < 50; i++) {
         var image = new Image();
         image.onload = function () {
@@ -55,31 +68,24 @@ function handleSearch(event) {
     if (event.key === 'Enter') {
         console.log(searchBar.value);
         const promise = fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&text=${searchBar.value}&tags=${searchBar.value}&format=json&nojsoncallback=1`)
-            .then((res) => {
-                return res.json();
-            }).then((JsonData) => {
+            .then((res) => res.json())
+            .then((JsonData) => {
                 generatePhotoArray(JsonData.photos.photo);
-                //console.log(JsonData.photos.photo);
                 displayImagesFromPhotoArray();
             }).catch(error => console.log(error));
         const promise2 = fetch(`https://api.flickr.com/services/rest/?method=flickr.tags.getRelated&api_key=${key}&tag=${searchBar.value}&format=json&nojsoncallback=1`)
             .then((res) => {
                 return res.json();
             }).then((JsonData) => {
-                var body = document.querySelector('.navbar-right>ul');
-
-                for (let i = 0; i < 10; i++) {
-                    
+                var body = document.querySelector('.navbar-right');
+                
+                for (let i = 0; i < 10; i++) {                    
                     let tag = JsonData.tags.tag[i]._content;
                     let temp = document.createElement("p");
                     temp.className = "relatedLink";
-                    
                     temp.textContent = tag;
-
                     body.appendChild(temp);
-
                 }
-
             })
     }
 }
