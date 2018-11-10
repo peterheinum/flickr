@@ -93,3 +93,13 @@ function handleSearch(event) {
         fetchPhotos(searchBar.value);        
     }
 }
+
+element.addEventListener('scroll', function(event)
+{   
+    
+    var element = event.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight)
+    {
+        console.log('scrolled');
+    }
+});
