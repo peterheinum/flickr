@@ -4,15 +4,14 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #f9f9f9;
+    background-color: #eee;
     /* background-image: url("images/what-the-hex.png"); */
     background-repeat: repeat;
 }
 
-.container {    
-    border-top: solid lightgray 1px;
-    padding-top: 1%;
+.container {
     display:flex;    
+    padding-top:1%;
 }
 
 
@@ -21,29 +20,41 @@ header {
     height: 20vh;
     display:flex;
     justify-content: center;
+    
+}
+
+#headerMinor {
+    width: 95vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
     align-items:center;
+    border-bottom: lightgrey 1px solid;
 }
 
 #searchBar {
     height: 20px;
-    background-color: white;
+    background-color: whitesmoke;
+    border-radius: 5px;
 }
 
 .navbar-right{
-    justify-self: right;
     height: 80vh;
     width: 25vw;
+    
+}
+
+#miniNavbar {
+    height: 95%;
+    border-left: solid 1px lightgray;
     display:flex;
     flex-direction: column;
     align-items:center; 
-    padding-top: 1%;
 }
-
 .gallerySpace {
     column-count: 4;
     column-gap:1em;
     width: 75vw;
-    border-right: solid 1px lightgrey;
     padding-left: 1%;
     padding-right: 1%;
 }
@@ -62,7 +73,6 @@ header {
 
 .relatedLink {
     text-decoration: none;
-    color: black;
     margin-top:2%;
     color:grey;
 }
