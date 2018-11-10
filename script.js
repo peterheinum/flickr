@@ -36,27 +36,16 @@ function generateSuggestions(TagArray){
     var navbar = document.querySelector('#miniNavbar');
     cleanElement(navbar);
 
-    if(TagArray.length != 0){
-        for (let i = 0; i < 10; i++) {  
-            if(i === 0){
-                let h2 = createh2Element();
-                navbar.appendChild(h2);
-
-            } else {
-                let tag = TagArray[i]._content;
-                let button = createButtonElement(tag);                
-                navbar.appendChild(button);
-            }
+    if (TagArray.length != 0) {
+        for (let i = 0; i < 10; i++) {
+            let tag = TagArray[i]._content;
+            let button = createButtonElement(tag);
+            navbar.appendChild(button);
         }
-
-    }   
+    }
 }
 
-function createh2Element(){
-    let h2 = document.createElement("h2");
-    h2.className = "relatedLinksHeading";
-    return h2;
-}
+
 
 function createButtonElement(tag){
     let button = document.createElement("button");

@@ -12,8 +12,6 @@ body {
 .container {
     display:flex;    
     padding-top:1%;
-    width: 100vw;
-    height: 80vh;
 }
 
 
@@ -22,8 +20,7 @@ header {
     width: 100vw;
     height: 20vh;
     display:flex;
-    justify-content: center;
-    
+    justify-content: center;    
 }
 
 #headerMinor {
@@ -42,6 +39,7 @@ header {
 }
 
 .navbar-right{
+    height: 78vh;
     width: 25vw;
     
 }
