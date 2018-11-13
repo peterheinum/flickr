@@ -18,6 +18,7 @@ body {
 
 header {    
     width: 100vw;
+    height: 20vh;
     display:flex;
     justify-content: center;    
 }
@@ -78,7 +79,7 @@ header {
     color:black;
     border-radius: 5px;
     border: 0px;
-    height: 20px;
+    height: 40px;
     width: 50%;
     font-family: Arial, Helvetica, sans-serif;
 }

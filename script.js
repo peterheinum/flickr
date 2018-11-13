@@ -1,4 +1,17 @@
+class flickrApi{
+    constructor() {
+        this.initialize();
+        this.addEventListeners();
+    }
+
+
+    initialize(){
+        
+    }
+}
+
 const key = "c6172fde54b6b96d7afbd08ad5118a7a";
+const key2 = "cebc2030b371023e059937c2550c8851";
 
 class Photo {
     constructor(id, farm, server, secret) {
@@ -8,6 +21,7 @@ class Photo {
         this.secret = secret;
     }
 }
+
 
 function generatePhotoArray(tempPhotoArray) {
     let photoArray = [];
@@ -20,9 +34,9 @@ function generatePhotoArray(tempPhotoArray) {
 
 function displayImagesFromPhotoArray(photoArray) {
     var body = document.querySelector('.gallerySpace');
-    cleanElement(body);    
+    cleanElement(body);
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < photoArray.length; i++) {
         var image = new Image();
         image.onload = function () {
             image.className = "imageItem";
@@ -32,22 +46,20 @@ function displayImagesFromPhotoArray(photoArray) {
     }
 }
 
-function generateSuggestions(TagArray){
+function generateSuggestions(TagArray) {
     var navbar = document.querySelector('#miniNavbar');
     cleanElement(navbar);
 
     if (TagArray.length != 0) {
         for (let i = 0; i < 10; i++) {
-            let tag = TagArray[i]._content;
+            let tag = TagArray[i];
             let button = createButtonElement(tag);
             navbar.appendChild(button);
         }
     }
 }
 
-
-
-function createButtonElement(tag){
+function createButtonElement(tag) {
     let button = document.createElement("button");
     button.className = "relatedLink";
     button.addEventListener("click", followTagLink);
@@ -55,13 +67,13 @@ function createButtonElement(tag){
     return button;
 }
 
-function cleanElement(element){
-    while(element.firstChild){ //TODO but not h2 elements!
+function cleanElement(element) {
+    while (element.firstChild) { //TODO but not h2 elements!
         element.removeChild(element.firstChild);
     }
 }
 
-function followTagLink(event){
+function followTagLink(event) {
     searchBar.value = "";
     let tag = event.target.textContent;
     fetchPhotos(tag);
@@ -71,35 +83,31 @@ function followTagLink(event){
 const searchBar = document.querySelector("#searchBar");
 searchBar.addEventListener("keydown", handleSearch);
 
-function fetchPhotos(tag){
+function fetchPhotos(tag) {
     let amount = 20;
     const promise = fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=${tag}&per_page=${amount}&format=json&nojsoncallback=1`)
-    .then((res) => res.json())
-    .then((JsonData) => {
-        let photoArray = generatePhotoArray(JsonData.photos.photo);                
-        displayImagesFromPhotoArray(photoArray);
-    }).catch(error => console.log(error));
-const promise2 = fetch(`https://api.flickr.com/services/rest/?method=flickr.tags.getRelated&api_key=${key}&tag=${tag}&format=json&nojsoncallback=1`)
-    .then((res) => {
-        return res.json();
-    }).then((JsonData) => {
-        generateSuggestions(JsonData.tags.tag)
-        
-    })
+        .then((res) => res.json())
+        .then((JsonData) => {
+            let photoArray = generatePhotoArray(JsonData.photos.photo);
+            displayImagesFromPhotoArray(photoArray);
+        }).catch(error => console.log(error));
+
+    const promise2 = fetch(`http://words.bighugelabs.com/api/2/${key2}/${tag}/json`)
+        .then((res) => {
+            return res.json();
+        }).then((JsonData) => {
+            console.log(JsonData.noun.syn);
+            generateSuggestions(JsonData.noun.syn);
+        })
+        .catch(generateErrorRelatedTags())
 }
 
 function handleSearch(event) {
     if (event.key === 'Enter') {
-        fetchPhotos(searchBar.value);        
+        fetchPhotos(searchBar.value);
     }
 }
 
-element.addEventListener('scroll', function(event)
-{   
-    
-    var element = event.target;
-    if (element.scrollHeight - element.scrollTop === element.clientHeight)
-    {
-        console.log('scrolled');
-    }
-});
+(function() {
+    new flickrApi();
+  })();
