@@ -1,17 +1,7 @@
-class flickrApi{
-    constructor() {
-        this.initialize();
-        this.addEventListeners();
-    }
-
-
-    initialize(){
-        
-    }
-}
-
 const key = "c6172fde54b6b96d7afbd08ad5118a7a";
 const key2 = "cebc2030b371023e059937c2550c8851";
+const searchBar = document.querySelector("#searchBar");
+searchBar.addEventListener("keydown", handleSearch);
 
 class Photo {
     constructor(id, farm, server, secret) {
@@ -33,14 +23,14 @@ function generatePhotoArray(tempPhotoArray) {
 }
 
 function displayImagesFromPhotoArray(photoArray) {
-    var body = document.querySelector('.gallerySpace');
-    cleanElement(body);
+    var gallerySpace = document.querySelector('.gallerySpace');
+    cleanElement(gallerySpace);
 
     for (let i = 0; i < photoArray.length; i++) {
         var image = new Image();
         image.onload = function () {
             image.className = "imageItem";
-            body.appendChild(image);
+            gallerySpace.appendChild(image);
         }(i)  //IMPORTANT (i)
         image.src = `https://farm${photoArray[i].farm}.staticflickr.com\/${photoArray[i].server}\/${photoArray[i].id}_${photoArray[i].secret}.jpg`;
     }
@@ -50,7 +40,13 @@ function generateSuggestions(TagArray) {
     var navbar = document.querySelector('#miniNavbar');
     cleanElement(navbar);
 
-    if (TagArray.length != 0) {
+    if (TagArray.length < 10) {
+        TagArray.forEach(tag => {
+            let button = createButtonElement(tag);
+            navbar.appendChild(button);
+        });
+    }
+    else{
         for (let i = 0; i < 10; i++) {
             let tag = TagArray[i];
             let button = createButtonElement(tag);
@@ -80,8 +76,7 @@ function followTagLink(event) {
 }
 
 
-const searchBar = document.querySelector("#searchBar");
-searchBar.addEventListener("keydown", handleSearch);
+
 
 function fetchPhotos(tag) {
     let amount = 20;
@@ -99,7 +94,7 @@ function fetchPhotos(tag) {
             console.log(JsonData.noun.syn);
             generateSuggestions(JsonData.noun.syn);
         })
-        .catch(generateErrorRelatedTags())
+        .catch(error => console.log(error));
 }
 
 function handleSearch(event) {
@@ -108,6 +103,3 @@ function handleSearch(event) {
     }
 }
 
-(function() {
-    new flickrApi();
-  })();

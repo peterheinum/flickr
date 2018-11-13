@@ -75,7 +75,7 @@ header {
 .relatedLink {
     margin-top:5%;
     background-color: #DFE8D1;
-
+    overflow: auto;
     color:black;
     border-radius: 5px;
     border: 0px;
