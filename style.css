@@ -33,9 +33,10 @@ header {
 }
 
 #searchBar {
-    height: 20px;
     background-color: whitesmoke;
     border-radius: 5px;
+    padding: 10px;
+    font-size: 24px;
 }
 
 .navbar-right{
