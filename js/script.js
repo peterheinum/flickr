@@ -76,6 +76,43 @@ function followTagLink(event) {
 }
 
 
+function translateVoice(){
+    let Speech = SpeechRecognition.SpeechRecognition();
+    console.log(Speech);
+}
+
+
+const voiceControl = {
+    startVoice: function(){
+        console.log("starting voice");
+        let recognition = new webkitSpeechRecognition();
+        navigator.mediaDevices.getUserMedia({audio:true});
+        recognition.lang = 'en-US';
+        recognition.onend = function(){
+            console.log("now end");
+        }
+
+        recognition.continious = true;
+
+        let textArea = document.querySelector("#searchBar");
+        
+
+        recognition.continious = true;
+        let wordGuessed = "";
+        recognition.onresult = function (event){
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                  textArea.value = event.results[i][0].transcript;
+                  fetchPhotos(event.results[i][0].transcript);
+                }
+            }
+        }
+        recognition.start();
+    },
+    reset: function(){
+        
+    }
+}
 
 
 function fetchPhotos(tag) {
@@ -97,11 +134,14 @@ function fetchPhotos(tag) {
         .catch(error => console.log(error));
 }
 
+let speechButton = document.querySelector("#speechButton");
+speechButton.addEventListener("click", voiceControl.startVoice);
+
 function handleSearch(event) {
+   
     if (event.key === 'Enter') {
         fetchPhotos(searchBar.value);
     }
 }
-
 
 
