@@ -84,18 +84,16 @@ function translateVoice(){
 
 const voiceControl = {
     startVoice: function(){
-        console.log("starting voice");
         let recognition = new webkitSpeechRecognition();
         navigator.mediaDevices.getUserMedia({audio:true});
         recognition.lang = 'en-US';
         recognition.onend = function(){
-            console.log("now end");
+            
         }
 
         recognition.continious = true;
 
-        let textArea = document.querySelector("#searchBar");
-        
+        let textArea = document.querySelector("#searchBar");  
 
         recognition.continious = true;
         let wordGuessed = "";

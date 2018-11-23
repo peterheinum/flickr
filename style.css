@@ -92,7 +92,10 @@ header {
 }
 
 .relatedLinksHeading {
-    color: grey;
+    color: white;
+    background-color: #0F5A32;
+    border-radius: 5px;
+    padding: 5px;
     
 }
 
