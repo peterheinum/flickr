@@ -2,6 +2,7 @@ const key = "c6172fde54b6b96d7afbd08ad5118a7a";
 const key2 = "cebc2030b371023e059937c2550c8851";
 const searchBar = document.querySelector("#searchBar");
 searchBar.addEventListener("keydown", handleSearch);
+const speechButton = document.querySelector("#speechButton");
 
 class Photo {
     constructor(id, farm, server, secret) {
@@ -11,7 +12,6 @@ class Photo {
         this.secret = secret;
     }
 }
-
 
 function generatePhotoArray(tempPhotoArray) {
     let photoArray = [];
@@ -23,13 +23,14 @@ function generatePhotoArray(tempPhotoArray) {
 }
 
 function displayImagesFromPhotoArray(photoArray) {
-    var gallerySpace = document.querySelector('.gallerySpace');
+    let gallerySpace = document.querySelector('.gallerySpace');
     cleanElement(gallerySpace);
 
     for (let i = 0; i < photoArray.length; i++) {
-        var image = new Image();
+        let image = new Image();
         image.onload = function () {
             image.className = "imageItem";
+            
             gallerySpace.appendChild(image);
         }(i)  //IMPORTANT (i)
         image.src = `https://farm${photoArray[i].farm}.staticflickr.com\/${photoArray[i].server}\/${photoArray[i].id}_${photoArray[i].secret}.jpg`;
@@ -37,9 +38,8 @@ function displayImagesFromPhotoArray(photoArray) {
 }
 
 function generateSuggestions(TagArray) {
-    var navbar = document.querySelector('#miniNavbar');
+    let navbar = document.querySelector('#miniNavbar');
     cleanElement(navbar);
-
     if (TagArray.length < 10) {
         TagArray.forEach(tag => {
             let button = createButtonElement(tag);
@@ -63,8 +63,8 @@ function createButtonElement(tag) {
     return button;
 }
 
-function cleanElement(element) {
-    while (element.firstChild) { //TODO but not h2 elements!
+function cleanElement(element) {    
+    while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
 }
@@ -75,22 +75,17 @@ function followTagLink(event) {
     fetchPhotos(tag);
 }
 
-
 function translateVoice(){
-    let Speech = SpeechRecognition.SpeechRecognition();
-    console.log(Speech);
+    SpeechRecognition.SpeechRecognition();
 }
-
 
 const voiceControl = {
     startVoice: function(){
-        let recognition = new webkitSpeechRecognition();
         navigator.mediaDevices.getUserMedia({audio:true});
+        let recognition = new webkitSpeechRecognition();        
         recognition.lang = 'en-US';
-        recognition.onend = function(){
-            
-        }
-
+        
+        recognition.maxAllowed = 1;
         recognition.continious = true;
 
         let textArea = document.querySelector("#searchBar");  
@@ -98,7 +93,7 @@ const voiceControl = {
         recognition.continious = true;
         let wordGuessed = "";
         recognition.onresult = function (event){
-            for (var i = event.resultIndex; i < event.results.length; ++i) {
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
                   textArea.value = event.results[i][0].transcript;
                   fetchPhotos(event.results[i][0].transcript);
@@ -107,11 +102,9 @@ const voiceControl = {
         }
         recognition.start();
     },
-    reset: function(){
-        
-    }
 }
 
+speechButton.addEventListener("click", voiceControl.startVoice);
 
 function fetchPhotos(tag) {
     let amount = 20;
@@ -126,20 +119,23 @@ function fetchPhotos(tag) {
         .then((res) => {
             return res.json();
         }).then((JsonData) => {
-            console.log(JsonData.noun.syn);
             generateSuggestions(JsonData.noun.syn);
         })
-        .catch(error => console.log(error));
+        .catch(error => handleRelatedTermsError(error));
 }
 
-let speechButton = document.querySelector("#speechButton");
-speechButton.addEventListener("click", voiceControl.startVoice);
+function handleRelatedTermsError(error){
+    let navbar = document.querySelector('#miniNavbar');
+    cleanElement(navbar);
+    let errorMsg = document.createElement('p');
+    errorMsg.textContent = "No related search term was found";
+    errorMsg.className = "errorMsg";
+    navbar.appendChild(errorMsg);
 
-function handleSearch(event) {
-   
+}
+
+function handleSearch(event) {   
     if (event.key === 'Enter') {
         fetchPhotos(searchBar.value);
     }
 }
-
-
